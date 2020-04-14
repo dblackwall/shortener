@@ -1,0 +1,21 @@
+version: '2.2'
+services:
+   shortener-war:
+      build: ../shortener-war
+      ports:
+         - 8080:8080
+      links:
+         - shortener-db
+   shortener-db:
+      build: ../shortener-db
+      expose:
+         - '5432'
+      ports: 
+         - '5432:5432'
+      volumes_from:
+         - shortener-db-data
+   shortener-db-data:
+      image: cogniteev/echo
+      command: echo 'Data Container for PostgreSQL'
+      volumes:
+         - /var/lib/postgresql/data
